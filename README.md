@@ -2,6 +2,13 @@
 
 A [Paw Extension](http://luckymarmot.com/paw/extensions/) that generates [Moya](https://github.com/Moya/Moya) code for you! 🔨😎🎉
 
+
+## Install
+* Donwload the project and rename the folder to `com.nam.PawExtensions.SwiftMoyaCodeGenerator`
+* Open Paw -> Preferences -> Extensions -> Open Extensions Directory
+* Copy the `com.nam.PawExtensions.SwiftMoyaCodeGenerator` folder to extensions directory
+
+
 ## Features
 * Parsing query params
 * Parsing key-value object provided as JSON Body
@@ -14,7 +21,6 @@ Still lots to be done... See issues for a good start or write your own. If you f
 
 This Paw Extension is released under the [MIT License](LICENSE). Feel free to fork, and modify!
 
-Copyright © 2015 Łukasz Kuczborski.
 
 ### Credits
 
