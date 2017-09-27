@@ -10,20 +10,51 @@
             var request = context.getCurrentRequest();
             var url = uri.parse(request.url);
 
+            var requestParameter = "";
+            var requestName = request.name;
+            var queryParamsType = "";
+            var pathExtension = url.path;
+
+            if (request.name.indexOf('{') > 0) {
+                requestParameter = request.name.match("{([^']+)}")[1];
+                requestName = requestName.replace(request.name.match("{([^']+)}")[0], "");
+                requestName = requestName.replace("/", "");
+                queryParamsType = requestParameter + ": Int";
+            }
+
+            var pathFragments = pathExtension.split('/');
+            for (var i = 0; i < pathFragments.length; i++) {
+                if (pathFragments[i] == requestName) {
+                    pathExtension = pathExtension.replace(pathFragments[i + 1], "\\(" + requestParameter + ")");
+                    break;
+                }
+            }
+
             var view = {
                 "request": request,
                 "baseURL": url.protocol + "://" + url.hostname,
-                "pathExtension": url.path,
+                "pathExtension": pathExtension,
+                "requestName": requestName,
+                "requestParameter": "let " + requestParameter,
             };
+
+
 
             var query = url.query;
             if (query) {
                 var fragments = query.split('&');
                 var keyvalue = fragments[0].split('=');
-                var queryParamsType = keyvalue[0] + ": " + typeForObject(keyvalue[1]);
+
+                if (queryParamsType) {
+                    queryParamsType = queryParamsType + ", " + keyvalue[0] + ": " + typeForObject(keyvalue[1]);
+                }else{
+                    queryParamsType = keyvalue[0] + ": " + typeForObject(keyvalue[1]);
+                }
                 var queryParamsTemplate = "_";
                 var queryParams = "let " + keyvalue[0];
                 var queryDictString = "\"" + keyvalue[0] + "\": " + keyvalue[0];
+
+
                 for (var i = 1; i < fragments.length; i++) {
                     keyvalue = fragments[i].split('=');
                     queryParamsType += ", " + keyvalue[0] + ": " + typeForObject(keyvalue[1]);
@@ -32,11 +63,12 @@
                     queryDictString += ", \"" + keyvalue[0] + "\": " + keyvalue[0];
                 }
 
-                view["queryParamsType"] = queryParamsType;
                 view["queryParamsTemplate"] = queryParamsTemplate;
                 view["queryParams"] = queryParams;
                 view["queryDictString"] = queryDictString;
             }
+
+            view["queryParamsType"] = queryParamsType;
 
             var jsonBody = request.jsonBody;
             if (jsonBody && Object.keys(jsonBody).length > 0) {

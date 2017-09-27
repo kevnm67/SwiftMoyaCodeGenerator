@@ -1,7 +1,7 @@
 import Moya
 
 public enum API {
-    case {{{request.name}}}{{#queryParamsType}}({{{queryParamsType}}}){{/queryParamsType}}{{#jsonBodyParamsType}}({{{jsonBodyParamsType}}}){{/jsonBodyParamsType}}
+    case {{{requestName}}}{{#queryParamsType}}({{{queryParamsType}}}){{/queryParamsType}}
 }
 
 extension API: TargetType {
@@ -10,7 +10,7 @@ extension API: TargetType {
 
     public var path: String {
         switch self {
-        case .{{{request.name}}}{{#queryParamsTemplate}}({{{queryParamsTemplate}}}){{/queryParamsTemplate}}{{#jsonBodyParamsTemplate}}({{{jsonBodyParamsTemplate}}}){{/jsonBodyParamsTemplate}}:
+        case .{{{requestName}}}{{#requestParameter}}({{{requestParameter}}}){{/requestParameter}}:
             return "{{{pathExtension}}}"
         }
     }
@@ -22,11 +22,11 @@ extension API: TargetType {
     public var parameters: [String: AnyObject]? {
         switch self {
         {{#queryParams}}
-        case .{{{request.name}}}({{{queryParams}}}):
+        case .{{{requestName}}}({{{queryParams}}}):
             return {{#queryDictString}}[{{{queryDictString}}}]{{/queryDictString}}
         {{/queryParams}}
         {{#jsonBodyParams}}
-        case .{{{request.name}}}({{{jsonBodyParams}}}):
+        case .{{{requestName}}}({{{jsonBodyParams}}}):
             return {{#jsonBodyDictString}}[{{{jsonBodyDictString}}}]{{/jsonBodyDictString}}
         {{/jsonBodyParams}}
         {{^queryParams}}
@@ -43,8 +43,8 @@ extension API: TargetType {
     // so it was not possible to do it automatically.
     public var sampleData: NSData {
         switch self {
-        case .{{{request.name}}}:
-            return "To be implemented...".dataUsingEncoding(NSUTF8StringEncoding)!
+        case .{{{requestName}}}:
+            return "{}".dataUsingEncoding(NSUTF8StringEncoding)!
         }
     }
 }
