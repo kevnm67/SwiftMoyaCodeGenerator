@@ -1,22 +1,32 @@
+//
+//  {{{apiName}}}API.swift
+//  
+//  Generated usign MoyaPaw Export https://github.com/narlei/SwiftMoyaCodeGenerator.git
+
 import Moya
 
-public enum API {
+{{{alll}}}
+
+public enum {{{apiName}}}API {
     case {{{requestName}}}{{#queryParamsType}}({{{queryParamsType}}}){{/queryParamsType}}
 }
 
-extension API: TargetType {
+extension {{{apiName}}}API: TargetType {
 
     public var baseURL: NSURL { return NSURL(string: "{{{baseURL}}}")! }
 
     public var path: String {
         switch self {
-        case .{{{requestName}}}{{#requestParameter}}({{{requestParameter}}}){{/requestParameter}}:
+        case .{{{requestName}}}({{{requestParameter}}}):
             return "{{{pathExtension}}}"
         }
     }
 
     public var method: Moya.Method {
-        return .{{{request.method}}}
+        switch self {
+        case .{{{requestName}}}:
+            return .{{{requestMethod}}}
+        }
     }
 
     public var parameters: [String: AnyObject]? {
@@ -38,20 +48,19 @@ extension API: TargetType {
         }
     }
 
-    // TODO: Provide proper sampleData!
-    // Currently PAW API does not support Response access,
-    // so it was not possible to do it automatically.
+    var task: Task {
+        return .requestPlain
+    }
+
+    var headers: [String: String]? {
+        return [{{#headers}}{{{headers}}}{{/headers}}]
+    }
+
     public var sampleData: NSData {
         switch self {
         case .{{{requestName}}}:
-            return "{}".dataUsingEncoding(NSUTF8StringEncoding)!
+            return "{}".data(using: String.Encoding.utf8)!
         }
     }
 }
 
-// See https://github.com/Moya/Moya/blob/master/docs/Targets.md#escaping-urls
-extension String {
-    var URLEscapedString: String {
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
-    }
-}

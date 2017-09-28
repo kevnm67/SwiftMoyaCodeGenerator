@@ -8,7 +8,10 @@
 
             var template = readFile("moya.mustache");
             var request = context.getCurrentRequest();
+            var apiName = request.parent.name;
             var url = uri.parse(request.url);
+            var requestMethod = request.method.toLowerCase();
+            var headers = "";
 
             var requestParameter = "";
             var requestName = request.name;
@@ -30,12 +33,27 @@
                 }
             }
 
+            for (i = 0, len = request.headers.length; i < len; i++) {
+              headerLine = request.headers[i];
+              headers = headerLine;
+              match = headerLine.match(/^([^\s\:]*)\s*\:\s*(.*)$/);
+              if (match) {
+                headers = headers + ', \"' + match[1] + '\" : \"' + match[2] + '\"';
+                // if (match[1].toLowerCase() === 'content-type') {
+                  // contentType = match[2].split(';')[0].trim();
+                // }
+              }
+            }
+
             var view = {
                 "request": request,
                 "baseURL": url.protocol + "://" + url.hostname,
                 "pathExtension": pathExtension,
                 "requestName": requestName,
                 "requestParameter": "let " + requestParameter,
+                "apiName": apiName,
+                "requestMethod": requestMethod,
+                "headers": headers,
             };
 
 
