@@ -8,7 +8,7 @@
 
             var template = readFile("moya.mustache");
             var request = context.getCurrentRequest();
-            var apiName = request.parent.name;
+            var apiName = "";
             var url = uri.parse(request.url);
             var requestMethod = request.method.toLowerCase();
             var headers = "";
@@ -17,6 +17,10 @@
             var requestName = request.name;
             var queryParamsType = "";
             var pathExtension = url.path;
+
+            if (request.parent) {
+                apiName = request.parent.name;
+            }
 
             if (request.name.indexOf('{') > 0) {
                 requestParameter = request.name.match("{([^']+)}")[1];
