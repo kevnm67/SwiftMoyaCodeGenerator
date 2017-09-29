@@ -29,27 +29,23 @@ extension {{{apiName}}}API: TargetType {
         }
     }
 
-    public var parameters: [String: AnyObject]? {
+    var task: Task {
         switch self {
         {{#queryParams}}
         case .{{{requestName}}}({{{queryParams}}}):
-            return {{#queryDictString}}[{{{queryDictString}}}]{{/queryDictString}}
+            return {{#queryDictString}}.requestParameters(parameters: [{{{queryDictString}}}], encoding: URLEncoding.default){{/queryDictString}}
         {{/queryParams}}
         {{#jsonBodyParams}}
         case .{{{requestName}}}({{{jsonBodyParams}}}):
-            return {{#jsonBodyDictString}}[{{{jsonBodyDictString}}}]{{/jsonBodyDictString}}
+            return {{#jsonBodyDictString}}.requestParameters(parameters: [{{{jsonBodyDictString}}}], encoding: URLEncoding.default){{/jsonBodyDictString}}
         {{/jsonBodyParams}}
         {{^queryParams}}
         {{^jsonBodyParams}}
-        default:
-            return nil
+        case .{{{requestName}}}:
+            return .requestPlain
         {{/jsonBodyParams}}
         {{/queryParams}}
         }
-    }
-
-    var task: Task {
-        return .requestPlain
     }
 
     var headers: [String: String]? {

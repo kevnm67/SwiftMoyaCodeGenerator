@@ -21,9 +21,10 @@
             if (request.name.indexOf('{') > 0) {
                 requestParameter = request.name.match("{([^']+)}")[1];
                 requestName = requestName.replace(request.name.match("{([^']+)}")[0], "");
-                requestName = requestName.replace("/", "");
                 queryParamsType = requestParameter + ": Int";
             }
+
+            requestName = requestName.replace("/", "");
 
             var pathFragments = pathExtension.split('/');
             for (var i = 0; i < pathFragments.length; i++) {
@@ -33,17 +34,16 @@
                 }
             }
 
-            for (i = 0, len = request.headers.length; i < len; i++) {
-              headerLine = request.headers[i];
-              headers = headerLine;
-              match = headerLine.match(/^([^\s\:]*)\s*\:\s*(.*)$/);
-              if (match) {
-                headers = headers + ', \"' + match[1] + '\" : \"' + match[2] + '\"';
-                // if (match[1].toLowerCase() === 'content-type') {
-                  // contentType = match[2].split(';')[0].trim();
-                // }
-              }
+            for (header_name in request.headers) {
+                var header_value = request.headers[header_name];
+                if (header_name.toLowerCase() !== 'authorization') {
+                    if (headers) {
+                        headers = headers + ", \n                ";
+                    }
+                    headers = headers + '\"' + header_name + '\" : \"' + header_value + '\"';
+                }
             }
+
 
             var view = {
                 "request": request,
