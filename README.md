@@ -1,9 +1,11 @@
 # Swift Moya Code Generator (Paw Extension)
 
-A [Paw Extension](http://luckymarmot.com/paw/extensions/) that generates [Moya](https://github.com/Moya/Moya) code for you! 🔨😎🎉
+A [Paw Extension](http://luckymarmot.com/paw/extensions/) that generates [Moya](https://github.com/Moya/Moya) code for you!
 
+## Install via Paw
+* Download directly from [Paw Extensions](https://paw.cloud/extensions/SwiftMoyaCodeGenerator)
 
-## Install
+## Install Directly
 * Donwload the project and rename the folder to `com.nam.PawExtensions.SwiftMoyaCodeGenerator`
 * Open Paw -> Preferences -> Extensions -> Open Extensions Directory
 * Copy the `com.nam.PawExtensions.SwiftMoyaCodeGenerator` folder to extensions directory
@@ -14,13 +16,12 @@ A [Paw Extension](http://luckymarmot.com/paw/extensions/) that generates [Moya](
 * Parsing key-value object provided as JSON Body
 * Type matching for params (`String` or `Int` based on param data provided in PAW, e.g. id = 2 will generate `let id: Int`)
 
-### TODO
-Still lots to be done... See issues for a good start or write your own. If you feel like contributing you are more than welcome 🍻 (I will try to merge PR's as soon as possible :smile:)
-
 ### License
 
 This Paw Extension is released under the [MIT License](LICENSE). Feel free to fork, and modify!
 
+### Bug report
+Create a github [issue](https://github.com/narlei/SwiftMoyaCodeGenerator/issues) or email to contato@narlei.com
 
 ### Credits
 
