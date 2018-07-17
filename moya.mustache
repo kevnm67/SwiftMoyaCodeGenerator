@@ -29,7 +29,7 @@ extension {{{apiName}}}API: TargetType {
         }
     }
 
-    var task: Task {
+    public var task: Task {
         switch self {
         {{#queryParams}}
         case .{{{requestName}}}({{{queryParams}}}):
@@ -48,7 +48,7 @@ extension {{{apiName}}}API: TargetType {
         }
     }
 
-    var headers: [String: String]? {
+    public var headers: [String: String]? {
         return [{{#headers}}{{{headers}}}{{/headers}}]
     }
 
