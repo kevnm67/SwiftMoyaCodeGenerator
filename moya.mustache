@@ -1,7 +1,7 @@
 //
 //  {{{apiName}}}API.swift
 //  
-//  Generated usign MoyaPaw Export https://github.com/narlei/SwiftMoyaCodeGenerator.git
+//  Generated using MoyaPaw Export https://github.com/narlei/SwiftMoyaCodeGenerator.git
 
 import Moya
 
@@ -13,11 +13,11 @@ public enum {{{apiName}}}API {
 
 extension {{{apiName}}}API: TargetType {
 
-    public var baseURL: NSURL { return NSURL(string: "{{{baseURL}}}")! }
+    public var baseURL: URL { return URL(string: "{{{baseURL}}}")! }
 
     public var path: String {
         switch self {
-        case .{{{requestName}}}({{{requestParameter}}}):
+        case .{{{requestName}}}:
             return "{{{pathExtension}}}"
         }
     }
@@ -29,7 +29,7 @@ extension {{{apiName}}}API: TargetType {
         }
     }
 
-    var task: Task {
+    public var task: Task {
         switch self {
         {{#queryParams}}
         case .{{{requestName}}}({{{queryParams}}}):
@@ -48,11 +48,11 @@ extension {{{apiName}}}API: TargetType {
         }
     }
 
-    var headers: [String: String]? {
+    public var headers: [String: String]? {
         return [{{#headers}}{{{headers}}}{{/headers}}]
     }
 
-    public var sampleData: NSData {
+    public var sampleData: Data {
         switch self {
         case .{{{requestName}}}:
             return "{}".data(using: String.Encoding.utf8)!
